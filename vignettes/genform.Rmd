@@ -1,0 +1,57 @@
+---
+title: "GenForm in R"
+author: "Michael A. Stravs"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+This is an attempt to run GenForm directly in R(cpp) so no external software needs to be installed.
+
+## Example
+
+
+```{r}
+library(genform)
+
+# data from GenForm's TestosteroneAcetateMs.txt
+ms1 <- data.frame(
+  int = c(187572320, 38316664, 4628081.5),
+  mz = c(331.2267, 332.2302, 333.2335)
+)
+
+# data from GenForm's TestosteroneAcetateMsMs.txt
+msms <- data.frame(
+  mz = c(109.0651, 143.0857, 145.1014, 147.117, 157.1014, 159.117, 171.117,  173.1326, 175.1482, 185.1326,
+    187.1482, 189.1639, 197.1326, 201.1639,  211.1483, 213.1639, 225.1639, 253.1951, 271.2057, 289.2163),
+  int = c(427839.8, 223635.2, 334360.5, 225273.4, 485325.5, 410872.8,  897367.4, 254658.9, 358644.5, 
+          252607.9, 454906.1, 770931.4, 638673.4,  323607.3, 342478.6, 378554.5, 382941.7, 10198811, 14153159, 2020639.6 )
+)
+
+results <- genform(ms1, msms, settings=list(analyze=TRUE))
+```
+
+All settings except for `m` are specified in `settings`. For example
+
+```{r}
+settings <- list(
+  ppm = 5,
+  acc = 10,
+  rej=15,
+  ff = "C18-22H25-35O0-3N0-2",
+  analyze=TRUE,
+  loss=TRUE
+)
+results <- genform(ms1, msms, settings=settings)
+# etc
+
+```
+
+Todo: Figure out if some options should be handled differently.
+E.g. 
+ * have `analyze`, `loss` always on? 
+ * Expose some options (`ppm, acc, rej`? `el, ff`?) directly in arguments?
