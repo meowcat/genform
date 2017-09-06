@@ -1,11 +1,13 @@
 # genform
 
 Installation: 
+
+ * get a github token at https://github.com/settings/tokens -> Generate new token -> select "repo"
+ * install: 
 ```
 library(devtools)
-install_github("meowcat/genform")
+install_github("meowcat/genform", auth_token = "mylongtoken")
 ```
 
-probably doesn't work, because private?
 
 Usage: see `vignette("genform")`
